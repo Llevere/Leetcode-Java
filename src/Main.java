@@ -61,8 +61,35 @@ public class Main {
     // reverseString(new char[]{'h','e','l','l','o'});
 
     // System.out.println(canConstruct("aa", "aab"));
-   // System.out.println(firstUniqChar("leetcode"));
+    // System.out.println(firstUniqChar("leetcode"));
+    System.out.println(canPlaceFlowers(new int[]{0,0,1,0,1}, 1));
   }
+
+    static boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if(n < 1) return true;
+
+        boolean leftValid, currentValid, rightValid;
+        for(int i = 0; i < flowerbed.length; i++)
+        {
+            //Planted all flowers
+            if(n < 1) return true;
+
+            leftValid = i < 1 ? true :  flowerbed[i-1] == 0;
+            currentValid = flowerbed[i] == 0;
+            rightValid = i+1 == flowerbed.length ? true : flowerbed[i + 1] == 0;
+
+            //Check if it can be plated with all 3 indexes being zero
+            if (leftValid && currentValid && rightValid){
+                flowerbed[i] = 1;
+                n--;
+
+            }
+        }
+
+        //if above zero, means not all flowers were able to be planted
+        return n <= 0;
+    }
+
 
   static int firstUniqChar(String s) {
       int[] count = new int[26]; // only lowercase letters
