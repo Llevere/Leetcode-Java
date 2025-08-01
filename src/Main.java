@@ -61,7 +61,7 @@ public class Main {
     // reverseString(new char[]{'h','e','l','l','o'});
 
     // System.out.println(canConstruct("aa", "aab"));
-    System.out.println(firstUniqChar("leetcode"));
+   // System.out.println(firstUniqChar("leetcode"));
   }
 
   static int firstUniqChar(String s) {
