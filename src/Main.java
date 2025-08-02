@@ -62,7 +62,117 @@ public class Main {
 
     // System.out.println(canConstruct("aa", "aab"));
     // System.out.println(firstUniqChar("leetcode"));
-    System.out.println(canPlaceFlowers(new int[]{0,0,1,0,1}, 1));
+    // System.out.println(canPlaceFlowers(new int[]{0,0,1,0,1}, 1));
+    // System.out.println(mergeAlternately("ab", "pqrs"));
+    // System.out.println(gcdOfStrings("ABCABC", "ABC"));
+
+    // System.out.println(kidsWithCandies(new int[]{2,3,5,1,3}, 3));
+    // System.out.println(reverseVowels("IceCreAm"));
+    System.out.println(reverseWords("  hello world"));
+  }
+
+  static String reverseWords(String s)
+  {
+      String[] words = s.trim().split("\\s+");
+      int i = 0, j = words.length - 1;
+      while (i < j) {
+          String temp = words[i];
+          words[i] = words[j];
+          words[j] = temp;
+          i++;
+          j--;
+      }
+
+      return String.join(" ", words);
+  }
+
+  static String reverseVowels(String s)
+  {
+      Set<Character> vowels = new HashSet<>(Arrays.asList(
+              'a','e','i','o','u','A','E','I','O','U'
+      ));
+      StringBuilder sb = new StringBuilder(s);
+      int i = 0, j = s.length()-1;
+      while(i < j)
+      {
+        if(vowels.contains(sb.charAt(i)))
+          {
+              while(i < j)
+              {
+                  if(vowels.contains(sb.charAt(j)))
+                  {
+                      char temp = sb.charAt(i);
+                      sb.setCharAt(i, sb.charAt(j));
+                      sb.setCharAt(j, temp);
+                      j--;
+                      break;
+                  }
+                  j--;
+              }
+
+          }
+        i++;
+      }
+
+      return sb.toString();
+  }
+
+
+  static List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+   int max = Integer.MIN_VALUE;
+  List<Boolean> kidHasMaxCandies = new ArrayList();
+   for(int num : candies)
+   {
+       if(num > max)
+       {
+           max = num;
+       }
+   }
+    int len = candies.length;
+
+    for(int num : candies)
+    {
+        kidHasMaxCandies.add(num + extraCandies >= max);
+    }
+
+    return kidHasMaxCandies;
+  }
+
+  static String gcdOfStrings(String str1, String str2) {
+        if (!(str1 + str2).equals(str2 + str1)) {
+            return "";
+        }
+
+        int gcdLength = gcd(str1.length(), str2.length());
+
+        return str1.substring(0, gcdLength);
+    }
+
+    private static int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+
+  static String mergeAlternately(String word1, String word2) {
+    StringBuilder sb = new StringBuilder();
+    int i = 0, j = 0;
+
+    //Alternate until either 'i' or 'j' reached end of the string then fill the rest of the larger string to sb
+    while(i < word1.length() && j < word2.length())
+    {
+        sb.append(word1.charAt(i++));
+        sb.append(word2.charAt(j++));
+    }
+
+      while (i < word1.length()) sb.append(word1.charAt(i++));
+      while (j < word2.length()) sb.append(word2.charAt(j++));
+
+      return sb.toString();
   }
 
     static boolean canPlaceFlowers(int[] flowerbed, int n) {
