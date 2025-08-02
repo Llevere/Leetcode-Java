@@ -1,9 +1,8 @@
 import java.util.*;
 
 
-
 public class Main {
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
     //        System.out.println(isPalindrome(6016));
 
@@ -68,8 +67,40 @@ public class Main {
 
     // System.out.println(kidsWithCandies(new int[]{2,3,5,1,3}, 3));
     // System.out.println(reverseVowels("IceCreAm"));
-    System.out.println(reverseWords("  hello world"));
+    // System.out.println(reverseWords("  hello world"));
+    // System.out.println(maximumProduct(new int[]{1,2,3,4}));
   }
+
+  static double findMaxAverage(int[] nums, int k) {
+      double sum = 0;
+      int i = 0;
+      for (; i < k; i++) {
+          sum += nums[i];
+      }
+      double maxSum = sum;
+      for (; i < nums.length; i++) {
+          sum += nums[i] - nums[i - k];
+          maxSum = Math.max(maxSum, sum);
+      }
+
+      return maxSum / k;
+  }
+
+  static int maximumProduct(int[] nums)
+  {
+      int n=nums.length;
+      if(n<3)
+      {
+          return -1;
+      }
+      Arrays.sort(nums);
+
+      int maxi= Math.max(nums[n-3]*nums[n-2]*nums[n-1],nums[0]*nums[1]*nums[n-1]);
+
+      return maxi;
+  }
+
+
 
   static String reverseWords(String s)
   {
