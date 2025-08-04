@@ -69,6 +69,23 @@ public class Main {
     // System.out.println(reverseVowels("IceCreAm"));
     // System.out.println(reverseWords("  hello world"));
     // System.out.println(maximumProduct(new int[]{1,2,3,4}));
+
+    System.out.println(Arrays.toString(findErrorNums(new int[]{1,2,2,4})));
+  }
+
+  static int[] findErrorNums(int[] nums) {
+    Set<Integer> seen = new HashSet<>();
+    int duplicate = 0, actualSum = 0;
+    for (int num : nums) {
+        if(!seen.add(num)) {
+            duplicate = num;
+        }
+        actualSum += num;
+    }
+    int n = nums.length;
+    int expectedSum = n * (n+1) / 2;
+    int missing  = expectedSum - (actualSum - duplicate);
+    return new int[]{duplicate, missing};
   }
 
   static double findMaxAverage(int[] nums, int k) {
