@@ -70,7 +70,47 @@ public class Main {
     // System.out.println(reverseWords("  hello world"));
     // System.out.println(maximumProduct(new int[]{1,2,3,4}));
 
-    System.out.println(Arrays.toString(findErrorNums(new int[]{1,2,2,4})));
+    // System.out.println(Arrays.toString(findErrorNums(new int[]{1,2,2,4})));
+//      System.out.println(checkPossibility(new int[] {4,2,1})); //false
+//      System.out.println(checkPossibility(new int[] {3,4,2,3})); //false
+//      System.out.println(checkPossibility(new int[] {-1,4,2,3})); //true
+//      System.out.println(checkPossibility(new int[] {5,7,1,8})); //true
+  }
+
+  static boolean checkPossibility(int[] nums)
+  {
+      boolean canModify = true;
+      int n = nums.length;
+      int modifiedNum = 0;
+      for(int i = 0; i < n; i++)
+      {
+          if(!canModify)
+          {
+              if(nums[i] < modifiedNum) return false;
+          }
+          if(i+1 < n && nums[i] > nums[i+1]) {
+              if(!canModify) return false;
+              if(canModify && i-1 > -1) {
+                  int left = nums[i-1];
+                  int right = nums[i+1];
+
+                  if(left > right)
+                  {
+                      modifiedNum = nums[i];
+                      canModify = false;
+                      i++;
+                      continue;
+                  }
+                  canModify = false;
+                  modifiedNum = right;
+                  continue;
+              }
+              canModify = false;
+              modifiedNum = nums[i+1];
+
+          }
+      }
+      return true;
   }
 
   static int[] findErrorNums(int[] nums) {
