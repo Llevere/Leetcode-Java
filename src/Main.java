@@ -71,10 +71,113 @@ public class Main {
     // System.out.println(maximumProduct(new int[]{1,2,3,4}));
 
     // System.out.println(Arrays.toString(findErrorNums(new int[]{1,2,2,4})));
-//      System.out.println(checkPossibility(new int[] {4,2,1})); //false
-//      System.out.println(checkPossibility(new int[] {3,4,2,3})); //false
-//      System.out.println(checkPossibility(new int[] {-1,4,2,3})); //true
-//      System.out.println(checkPossibility(new int[] {5,7,1,8})); //true
+    //      System.out.println(checkPossibility(new int[] {4,2,1})); //false
+    //      System.out.println(checkPossibility(new int[] {3,4,2,3})); //false
+    //      System.out.println(checkPossibility(new int[] {-1,4,2,3})); //true
+    //      System.out.println(checkPossibility(new int[] {5,7,1,8})); //true
+    // System.out.println(calPoints(new String[]{"5","2","C","D","+"}));
+
+      System.out.println(getImportance(
+              List.of(
+                      new Employee(1, 5, List.of(2, 3)),
+                      new Employee(2, 3, List.of()),
+                      new Employee(3, 3, List.of())
+              ),
+              1
+      )); // Expected: 11
+
+      System.out.println(getImportance(
+              List.of(
+                      new Employee(1, 2, List.of(5)),
+                      new Employee(5, -3, List.of())
+              ),
+              5
+      )); // Expected: -3
+
+    System.out.println(getImportance(
+            List.of(
+                    new Employee(1, 5, List.of(2, 3)),
+                    new Employee(2, 3, List.of(4)),
+                    new Employee(3, 4, List.of()),
+                    new Employee(4, 1, List.of())
+            ),
+            1
+    )); // Expected: 13);
+  }
+
+   static class Employee {
+      public int id;
+      public int importance;
+      public List<Integer> subordinates;
+
+       public Employee(int id, int importance, List<Integer> subordinates) {
+           this.id = id;
+           this.importance = importance;
+           this.subordinates = subordinates;
+       }
+  }
+
+    static int indirectSubs(HashMap<Integer, Employee> map, Employee e) {
+        int sum = 0;
+        for (int subId : e.subordinates) {
+            Employee sub = map.get(subId);
+            sum += sub.importance;
+            sum += indirectSubs(map, sub);
+        }
+        return sum;
+    }
+
+
+  static int getImportance(List<Employee> employees, int id) {
+      HashMap<Integer, Employee> map = new HashMap<>();
+
+      for(Employee e: employees) {
+          map.put(e.id, e);
+      }
+      Employee e = map.get(id);
+      return e.importance + indirectSubs(map, e);
+  }
+
+
+  static int calPoints(String[] ops) {
+    Deque<Integer> stack = new ArrayDeque<>();
+    if(ops.length == 0) return 0;
+    if(ops.length == 1) {
+        try {
+            return Integer.parseInt(ops[0]);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+
+    }
+
+    for(int i = 0; i < ops.length; i++){
+        switch(ops[i]){
+            case "C":
+                stack.pop();
+                break;
+            case "D":
+                if(stack.size() > 0)
+                stack.push(stack.peek() * 2);
+                break;
+            case "+":
+                Iterator<Integer> it = stack.iterator();
+                int sum = 0;
+                if(it.hasNext()) sum += it.next();
+                if(it.hasNext()) sum += it.next();
+                stack.push(sum);
+                break;
+            default:
+                stack.push(Integer.parseInt(ops[i]));
+                break;
+        }
+    }
+
+    int sum = 0;
+    while(!stack.isEmpty()) {
+        sum += stack.pop();
+    }
+    return sum;
   }
 
   static boolean checkPossibility(int[] nums)
